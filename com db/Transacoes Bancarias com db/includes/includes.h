@@ -10,6 +10,8 @@
 #define INICIO 0
 #define FIM 1
 
+//#define BUILD_ADMIN //inclui o menu completo
+
 #define FILE_AGENCIA "db\\agencias.txt"
 #define FILE_CONTA "db\\contas.txt"
 #define FILE_CAIXA "db\\caixas.txt"
@@ -103,13 +105,13 @@ bool vP(T* ponteiro) //Validar ponteiro
 	return (ponteiro == NULL) ? false : true;
 }
 
-#include "textTable.h"
-#include "arquivoIO.h"
-#include "dataHora.h"
-#include "menuAgencia.h"
-#include "menuCaixa.h"
-#include "menuConta.h"
-#include "menuTransacoes.h"
-#include "menuAtendimento.h"
-#include "menuAvulso.h"
-#include "menuGlobal.h"
+#include "..\includes\textTable.h"
+#include "..\includes\arquivoIO.h"
+#include "..\includes\dataHora.h"
+#include "..\menu\menuAgencia.h"
+#include "..\menu\menuCaixa.h"
+#include "..\menu\menuConta.h"
+#include "..\menu\menuTransacoes.h"
+#include "..\menu\menuAtendimento.h"
+#include "..\menu\menuAvulso.h"
+#include "..\menu\menuGlobal.h"

@@ -5,7 +5,7 @@ namespace menuGlobal
 {
 	void iniciar(BOOL &resetar);
 
-	int menu()
+	int menu_admin()
 	{
 		int opcao = 0;
 		printf("Menu global:\n");
@@ -17,6 +17,20 @@ namespace menuGlobal
 		printf("5 - Ir até o menu de Consultas Avulsas.\n");
 		printf("6 - Ir até o menu de Novo Atendimento.\n");
 		printf("7 - Ir até o menu de Atendimento ao Cliente.\n");
+		printf("R: ");
+
+		scanf("%i", &opcao);
+
+		return opcao;
+	}
+
+	int menu_user()
+	{
+		int opcao = 0;
+		printf("Menu Atendimento:\n");
+		printf("0 - Finalizar programa.\n");
+		printf("1 - Novo Atendimento.\n");
+		printf("2 - Atendimento ao Cliente.\n");
 		printf("R: ");
 
 		scanf("%i", &opcao);

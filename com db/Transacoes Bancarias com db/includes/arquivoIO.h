@@ -37,6 +37,8 @@ public:
 			return "w"; break;
 		case modoIO::ACRESCENTAR:
 			return "a"; break;
+		default:
+			return "a";
 		}
 	}
 
@@ -45,7 +47,7 @@ public:
 		arquivo = fopen(arquivoDir, obterModo(modo));
 		if (arquivo == NULL)
 		{
-			printf("-> Falha ao gravar arquivo. [%s]\n", arquivoDir);
+			printf("-> Falha ao gravar o arquivo: [%s]\n", arquivoDir);
 			return;
 		}
 
@@ -58,7 +60,7 @@ public:
 		arquivo = fopen(arquivoDir, obterModo(modo));
 		if (arquivo == NULL)
 		{
-			printf("-> Falha ao ler arquivo. [%s]\n", arquivoDir);
+			printf("-> Falha ao ler o arquivo: [%s]\n", arquivoDir);
 			return;
 		}
 

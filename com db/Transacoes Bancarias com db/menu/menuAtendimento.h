@@ -109,6 +109,8 @@ namespace menuAtendimento
 
 	namespace aoCliente
 	{
+		int menu();
+
 		void saque(TransacoesBancarias* transacoesLista[], ContaCorrente* contaAtual, Caixa* caixaDesignado, SenhaAtendimento senhaAtual)
 		{
 			float valor;
@@ -179,6 +181,117 @@ namespace menuAtendimento
 
 			system("pause");
 			system("cls");
+		}
+
+		void filaCircular(int& optAtendimentoAoCliente, int Fila[], FilaAtendimento filaAtendimento[], int atendimentoAtual, vector<SenhaAtendimento> senhaInfo, TransacoesBancarias* transacoesLista[], ContaCorrente* contasLista[])
+		{
+			if (Fila[INICIO] != Fila[FIM])
+			{
+				if (filaAtendimento[atendimentoAtual].senhaInfo.status == SENHASTATUS::EMITIDA)
+				{
+					filaAtendimento[atendimentoAtual].Chamada += 1;
+
+					if (filaAtendimento[atendimentoAtual].Chamada <= limiteChamadas)
+					{
+						printf("Chamada %.2i: Senha[%i].\n", filaAtendimento[atendimentoAtual].Chamada, filaAtendimento[atendimentoAtual].senhaInfo.numero);
+						printf("Correntista: %s, comparecer ao caixa %.2i.\n", filaAtendimento[atendimentoAtual].contaCorrentista->nome, filaAtendimento[atendimentoAtual].caixaDesignado->numero);
+
+						system("pause");
+						system("cls");
+
+						ContaCorrente leitura;
+						printf("Confirme seu atendimento com conta, digito e agência:\n");
+						scanf("%i", &leitura.conta);
+						scanf("%i", &leitura.digito);
+						scanf("%i", &leitura.agencia);
+
+						if (filaAtendimento[atendimentoAtual].contaCorrentista->conta == leitura.conta &&
+							filaAtendimento[atendimentoAtual].contaCorrentista->digito == leitura.digito &&
+							filaAtendimento[atendimentoAtual].contaCorrentista->agencia == leitura.agencia)
+						{
+							system("cls");
+
+							while (optAtendimentoAoCliente != 0)
+							{
+								optAtendimentoAoCliente = menuAtendimento::aoCliente::menu();
+								system("cls");
+
+								switch (optAtendimentoAoCliente)
+								{
+								case 0:
+								{
+									BOOL bEncontrou = false;
+									filaAtendimento[atendimentoAtual].senhaInfo.status = SENHASTATUS::ATENDIDA;
+									for (int i = 0; i < senhaInfo.size(); i++) {
+										if (senhaInfo[i].numero == filaAtendimento[atendimentoAtual].senhaInfo.numero) {
+											bEncontrou = true;
+											senhaInfo[i].status = filaAtendimento[atendimentoAtual].senhaInfo.status;
+										}
+									}
+									if (!bEncontrou)
+										senhaInfo.push_back(filaAtendimento[atendimentoAtual].senhaInfo);
+
+									filaAtendimento[atendimentoAtual].caixaDesignado->senhasAtendidas += 1;
+
+									if ((atendimentoAtual + 1) % (Fila[FIM] + 1) == 0)
+										atendimentoAtual = (Fila[FIM] == 9) ? 0 : Fila[FIM] + 1;
+									else
+										atendimentoAtual = (atendimentoAtual + 1) % (Fila[FIM] + 1);
+								}break;
+								case 1:
+									menuAtendimento::aoCliente::saque(transacoesLista, filaAtendimento[atendimentoAtual].contaCorrentista, filaAtendimento[atendimentoAtual].caixaDesignado, filaAtendimento[atendimentoAtual].senhaInfo);
+									break;
+								case 2:
+									menuAtendimento::aoCliente::deposito(transacoesLista, filaAtendimento[atendimentoAtual].contaCorrentista, filaAtendimento[atendimentoAtual].caixaDesignado, filaAtendimento[atendimentoAtual].senhaInfo);
+									break;
+								case 3:
+									menuAtendimento::aoCliente::transferencia(transacoesLista, contasLista, filaAtendimento[atendimentoAtual].contaCorrentista, filaAtendimento[atendimentoAtual].caixaDesignado, filaAtendimento[atendimentoAtual].senhaInfo);
+									break;
+								}
+							}
+						}
+						else {
+							printf("\n-> Problema ao confirmar atendimento, conta inválida.\n");
+							optAtendimentoAoCliente = 0;
+
+							system("pause");
+							system("cls");
+						}
+
+						if (filaAtendimento[atendimentoAtual].Chamada == limiteChamadas) {
+							BOOL bEncontrou = false;
+							filaAtendimento[atendimentoAtual].senhaInfo.status = SENHASTATUS::CANCELADA;
+							for (int i = 0; i < senhaInfo.size(); i++) {
+								if (senhaInfo[i].numero == filaAtendimento[atendimentoAtual].senhaInfo.numero) {
+									bEncontrou = true;
+									senhaInfo[i].status = filaAtendimento[atendimentoAtual].senhaInfo.status;
+								}
+							}
+							if (!bEncontrou)
+								senhaInfo.push_back(filaAtendimento[atendimentoAtual].senhaInfo);
+
+							if ((atendimentoAtual + 1) % (Fila[FIM] + 1) == 0)
+								atendimentoAtual = (Fila[FIM] == 9) ? 0 : Fila[FIM] + 1;
+							else
+								atendimentoAtual = (atendimentoAtual + 1) % (Fila[FIM] + 1);
+						}
+					}
+				}
+				else {
+					printf("\n-> Todas as senhas já foram atendidas.\n");
+					optAtendimentoAoCliente = 0;
+
+					system("pause");
+					system("cls");
+				}
+			}
+			else {
+				printf("-> Nenhum atendimento foi solicitado.\n");
+				system("pause");
+				system("cls");
+
+				optAtendimentoAoCliente = 0;
+			}
 		}
 
 		int menu()

@@ -28,7 +28,7 @@ struct DataHora
 		ano = time->tm_year + 1900;
 	}
 
-	void Update()
+	void Atualizar()
 	{
 		time_t ptr = time(0);
 		tm* time = localtime(&ptr);

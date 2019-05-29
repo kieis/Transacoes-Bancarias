@@ -1,5 +1,5 @@
-18383;3;232.823.212-34;7031;Thiago Brito Alvaredo;386022;
-83939;2;341.846.768-71;4633;João Sebastião Ruan Galvão;550;
+18383;3;232.823.212-34;7031;Thiago Brito Alvaredo;348022;
+83939;2;341.846.768-71;4633;João Sebastião Ruan Galvão;30550;
 45324;8;443.599.900-57;5203;Bruno Daniel da Mota;700,0;
 23311;0;323.823.133-79;7031;Jose Pedro Brito;4800;
 29393;6;939.383.012-01;7031;Antonio Jose Brito;3000,0;
